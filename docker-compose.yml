@@ -1,0 +1,29 @@
+version: '3'
+services:
+
+  tests:
+    image: python:3
+    volumes:
+      - ./:/app
+    command: > 
+      sh -c "cd /app; 
+      pip install -r requirements.dev.txt ; 
+      pip install . ; 
+      echo ================================= ;
+      echo style check ;
+      echo ================================= ;
+      flake8 emojinounce"
+
+  emojinounce:
+    build: .
+    cap_add:
+      - ALL
+    environment:
+      - SLACK_EVENTS_ENDPOINT=/slack_events
+      - SLACK_BOT_TOKEN=xoxb-xxxxxxxxxx
+      - SLACK_ANNOUNCE_CHANNEL_ID=C1234567
+      - SLACK_SIGNING_SECRET=xxxxxxxx
+      - FLASK_DEBUG=True
+
+    ports:
+      - 5000:5000
