@@ -20,6 +20,9 @@ def create_app(config_filename, mapping={}):
 
     app = Flask(__name__)
     slack_events_adapter = SlackEventAdapter(slack_signing_secret, endpoint, app)
+    @app.route("/", methods=["GET"])
+    def default():
+      return "ok", 200
 
     @slack_events_adapter.on("emoji_changed")
     def handle_emoji(event_wrapper):
