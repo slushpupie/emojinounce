@@ -21,6 +21,7 @@ def create_app(config_filename, mapping={}):
     app = Flask(__name__)
     slack_events_adapter = SlackEventAdapter(slack_signing_secret, endpoint, app)
     @app.route("/", methods=["GET"])
+    @app.route("/health", methods=["GET"])
     def default():
       return "ok", 200
 
