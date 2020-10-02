@@ -12,11 +12,11 @@ The recommended way to run this, is via Docker image.  These instructions are fa
 
 You will need to run this on your own system somewhere that can receive HTTPS posts from Slack (or where you can use [ngrok](http://ngrok.com)) Directions for how to do this are beyond the scope of this document.  By default this will use the endpoint `/slack_events` to recieve events from Slack, but this can be customized using the environmental variable `SLACK_EVENTS_ENDPOINT`.
 
-**🏛 First, create an app on https://api.slack.com/apps 
+### 🏛 First, create an app on https://api.slack.com/apps 
 
 ![](https://cloud.githubusercontent.com/assets/32463/24877733/32979776-1de5-11e7-87d4-b5dc9e3e7973.png)
 
-**🤖 Add a bot user to your app
+### 🤖 Add a bot user to your app
 
 ![](https://cloud.githubusercontent.com/assets/32463/24877750/47a16034-1de5-11e7-989b-2a90b9d8e7e3.png)
 
@@ -24,11 +24,11 @@ Visit your app's **Install App** page and click **Install App to Team**.
 
 ![](https://cloud.githubusercontent.com/assets/32463/24877770/61804c36-1de5-11e7-91ef-5cf2e0845729.png)
 
-**🔐 Authorize your app
+### 🔐 Authorize your app
 
 ![](https://cloud.githubusercontent.com/assets/32463/24877792/774ed94c-1de5-11e7-8857-ac8d662c5b27.png)
 
-**🔐 Save your app's credentials**
+### 🔐 Save your app's credentials
 
 Once you've authorized your app, you'll be presented with your app's tokens.
 
@@ -63,7 +63,7 @@ With all the environment variables set, you can now run the app:
   docker run -e SLACK_BOT_TOKEN -e SLACK_SIGNING_SECRET -e SLACK_ANNOUNCE_CHANNEL_ID -p 80:5000 slushpupie/emojinounce:latest
 ```
 
-**☑️Subscribe your app to events**
+### ☑️Subscribe your app to events
 
 Add your **Request URL** and subscribe your app to `emoji_changed` under bot events. **Save** and toggle **Enable Events** to `on`
 
@@ -71,7 +71,7 @@ Add your **Request URL** and subscribe your app to `emoji_changed` under bot eve
 
 ![](https://cloud.githubusercontent.com/assets/32463/24877931/e119181a-1de5-11e7-8b0c-fcbc3419bad7.png)
 
-**🎉  Once your app has been installed and subscribed to Bot Events, you will begin receiving event data from Slack**
+### 🎉  Once your app has been installed and subscribed to Bot Events, you will begin receiving event data from Slack**
 
 Now when you change a custom emoji on your workspace, your emojinounce bot will output it to the channel!
 
