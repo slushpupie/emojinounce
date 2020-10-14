@@ -31,7 +31,7 @@ def create_app(config_filename, mapping={}):
         if event.get("subtype") == "add":
             if event.get('value').startswith("alias:"):
                 alias = event.get('value')[6:]
-                text = f"`:{event['name']}:`→`:{alias}:` (new alias for :{alias}:)"
+                text = f"`:{event['name']}:` → `:{alias}:` (new alias for :{alias}:)"
                 slack_client.chat_postMessage(channel=announce_channel_id, text=text)
             else:
                 text = f":{event['name']}:"
