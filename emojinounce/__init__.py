@@ -31,16 +31,63 @@ def create_app(config_filename, mapping={}):
         if event.get("subtype") == "add":
             if event.get('value').startswith("alias:"):
                 alias = event.get('value')[6:]
-                text = f"`:{event['name']}:` → `:{alias}:` (new alias for :{alias}:)"
-                slack_client.chat_postMessage(channel=announce_channel_id, text=text)
+                blocks = f"""{
+                    "blocks": [
+                        {
+                            "type": "section",
+                            "text": {
+                                "type": "mrkdwn",
+                                "text": "Alias Added\n*Original Emoji:* `:{event['name']}:`\n*New Alias:* `:{alias}:`"
+                            },
+                            "accessory": {
+                                "type": "image",
+                                "image_url": "{event['value']}",
+                                "alt_text": "{alias}"
+                            }
+                        }
+                    ]
+                }"""
+                slack_client.chat_postMessage(channel=announce_channel_id, blocks=blocks)
+                
             else:
-                text = f":{event['name']}:"
-                slack_client.chat_postMessage(channel=announce_channel_id, text=text)
+                blocks = f"""{
+                    "blocks": [
+                        {
+                            "type": "section",
+                            "text": {
+                                "type": "mrkdwn",
+                                "text": "Emoji Added\n*Name:* `:{event['name']}:`"
+                            },
+                            "accessory": {
+                                "type": "image",
+                                "image_url": "{event['value']}",
+                                "alt_text": "{event['name']}"
+                            }
+                        }
+                    ]
+                }"""
+                slack_client.chat_postMessage(channel=announce_channel_id, blocks=blocks)
         elif event.get("subtype") == "remove":
+            
             for name in event['names']:
-                text = f"`:{name}:` has been removed"
-                slack_client.chat_postMessage(channel=announce_channel_id, text=text)
-
+                blocks = f"""{
+                    "blocks": [
+                        {
+                            "type": "section",
+                            "text": {
+                                "type": "mrkdwn",
+                                "text": "Emoji Removed\n*Name:* `:{name}:`"
+                            },
+                            "accessory": {
+                                "type": "image",
+                                "image_url": "https://a.slack-edge.com/production-standard-emoji-assets/13.0/apple-medium/1f6ab.png",
+                                "alt_text": "{name}"
+                            }
+                        }
+                    ]
+                }"""
+                slack_client.chat_postMessage(channel=announce_channel_id, blocks=blocks)
+            
     # Error events
     @slack_events_adapter.on("error")
     def error_handler(err):
